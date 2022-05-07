@@ -1,0 +1,55 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+
+
+void main()
+{
+
+    char string[100],key[100],enc[100],str1,str2;
+
+    printf("Enter binary bits:");
+    gets(string);
+
+    int len;
+    len=strlen(string);
+
+    puts(string);
+
+    printf("Enter the key:");
+    gets(key);
+
+    int i;
+    for(i=0;string[i]!='\0';i++)
+    {
+        if(string[i]=='1')
+        {
+
+            string[i]='0';
+        }
+        else if(string[i]=='0')
+        {
+            string[i]='1';
+        }
+
+    }
+
+    printf("\n\nConverted String:");
+    puts(string);
+
+    for(i=0;i<strlen(string);i++)
+    {
+        if(string[i]==key[i])
+        {
+            enc[i]='1';
+        }
+        else
+        {
+            enc[i]='0';
+        }
+
+    }
+
+    puts("\n\nEncrypted String:\n");
+    puts(enc);
+}

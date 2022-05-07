@@ -1,0 +1,105 @@
+#include<string.h>
+#include<conio.h>
+int main()
+{
+ char pt[100],key[35],ct[100],col[100],level,dlevel,tkey[35];
+ int ptLen=0,kLen,cnt,lcounter=1;
+ int iArray[20]= {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+
+printf("\nEnter String to Encrypt:");
+ scanf("%s",pt);
+ printf("\nHow many levels you want to apply:");
+ scanf("%d",&level);
+ ptLen=strlen(pt);
+ pt[ptLen+1]='\0';
+ printf("\nEnter the key:");
+ scanf("%s",key);
+ for(int i=0; key[i]!='\0'; i++)
+ {
+ tkey[i]=key[i];
+ }
+ dlevel=level;
+ while(level>0)
+ {
+ printf("\n\n-------Performing Level %d Encryption-------\n\n",lcounter);
+ kLen=strlen(key);
+ key[kLen+1]='\0';
+ strcpy(col,key);
+ col[kLen+1]='\0';
+ cnt=0;
+ for(int i=0; i<kLen-1; i++)
+ {
+ for(int j=0; j<kLen-1-i; j++)
+ if(key[j+1]<key[j])
+ {
+ char tmp=key[j];
+ key[j]=key[j+1];
+ key[j+1]=tmp;
+ int t=iArray[j];
+ iArray[j]=iArray[j+1];
+ iArray[j+1]=t;
+ }
+ }
+ cnt=0;
+ for(int z=0; z<kLen; z++)
+ {
+ for(int x=0; x<=kLen; x++)
+
+{
+ if((iArray[z]+kLen*x)<=ptLen)
+ {
+ ct[cnt++]=pt[(iArray[z]+kLen*x)-1];
+ }
+ }
+ }
+ ct[ptLen]='\0';
+ int nl=1;
+ for(int i=0; i<kLen; i++)
+ {
+ printf("%c\t",tkey[i]);
+ }
+ printf("\n-----------------------------------------------------------");
+ printf("\n");
+ for(int i=0; i<ptLen; i++)
+ {
+ if(i==kLen*nl)
+ {
+ printf("\n%c\t",pt[i]);
+ nl++;
+ }
+ else
+ printf("%c\t",pt[i]);
+ }
+ printf("\n\nEncrypted String:%s\n\n",ct);
+ for(int i=0; ct[i]!='\0'; i++)
+ {
+ pt[i]=ct[i];
+ }
+ level--;
+ lcounter++;
+ }
+ lcounter=1;
+while(dlevel>0)
+ {
+ printf("\n\n-------Performing Level %d Decryption-------\n\n",lcounter);
+ printf("\n");
+ char strtmp[100];
+ cnt=0;
+ for(int z=0; z<kLen; z++)
+ {
+ for(int x=0; x<=kLen; x++)
+ {
+ if((iArray[z]+kLen*x)<=(ptLen))
+ strtmp[iArray[z]+(kLen*x)-1]=ct[cnt++];
+ }
+ }
+ strtmp[ptLen]='\0';
+ printf("\n\nDecrypted String:%s",strtmp);
+ for(int i=0; ct[i]!='\0'; i++)
+ {
+ ct[i]=strtmp[i];
+ }
+ dlevel--;
+ lcounter++;
+ }
+}
